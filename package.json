@@ -1,0 +1,28 @@
+{
+  "name": "awslambda_palyground",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Simple AWS lambda to test pizza ordering",
+  "main": "index.js",
+  "scripts": {
+    "create": "claudia create --profile claudia --region us-east-2 --api-module api",
+    "update": "claudia update --profile claudia"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.569.0",
+    "claudia-api-builder": "^4.1.2",
+    "claudia-bot-builder": "^4.5.0",
+    "eslint": "^6.6.0",
+    "eslint-config-esnext": "^4.0.0",
+    "eslint-config-node": "^4.0.0",
+    "eslint-config-prettier": "^6.5.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "prettier": "^1.18.2",
+    "uuid": "^3.3.3"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "lambda": {
+    "role": "awslambda_palyground-executor",
+    "name": "awslambda_palyground",
+    "region": "us-east-2"
+  },
+  "api": {
+    "id": "vi8yeybnz0",
+    "module": "api"
+  }
+}

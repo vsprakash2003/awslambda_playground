@@ -1,0 +1,30 @@
+{
+    "root": true,
+    "plugins": ["prettier"],
+    "extends": [
+      "eslint:recommended",
+      "prettier",
+      "esnext",
+      "node",
+      "plugin:import/errors",
+      "plugin:import/warnings"
+    ],
+    "env": {
+      "node": true,
+      "es6": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module"
+    },
+    "rules": {
+      "prettier/prettier": ["warn"],
+      "no-console": "off",
+      "no-unused-vars": "warn",
+      "no-use-before-define": ["error", {
+        "functions": false
+      }],
+      "import/no-nodejs-modules": "off",
+      "import/no-commonjs": "off"
+    }
+  }
