@@ -67,3 +67,16 @@
 ## to view all items in dynamodb
 `aws dynamodb scan --table-name pizza-orders --region us-east-2 --output json`
 
+## Git commands
+
+### to create develop branch
+```git commands
+git checkout -b origin/develop
+```
+### to commit to develop branch
+```git commands
+git init
+git add .
+git commit -m "second commit"
+git remote add origin https://github.com/vsprakash2003/awslambda_playground.git
+git push -u origin origin/develop
