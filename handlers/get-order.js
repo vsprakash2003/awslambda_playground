@@ -2,7 +2,7 @@ const AWS = require("aws-sdk");
 const docClient = new AWS.DynamoDB.DocumentClient();
 
 /* get the order */
-function getOrders(orderId) {
+function getOrder(orderId) {
   if (typeof orderId === "undefined")
     return docClient
       .scan({
@@ -21,4 +21,4 @@ function getOrders(orderId) {
     .then(result => result.Item);
 }
 
-module.exports = getOrders;
+module.exports = getOrder;
