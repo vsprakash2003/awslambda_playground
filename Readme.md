@@ -80,3 +80,15 @@ git add .
 git commit -m "second commit"
 git remote add origin https://github.com/vsprakash2003/awslambda_playground.git
 git push -u origin origin/develop
+```
+
+## Cloud Watch (logs)
+### to get the log group
+`aws logs describe-log-groups --region us-east-2`
+
+### to search for a log using the aws log filter-log-event
+`aws logs filter-log-events --filter='Order is saved' --log-group-name=/aws/lambda/awslambda_palyground --region=us-east-2 --output=json`
+
+### to get just the latest log using filter
+`aws logs filter-log-events --filter='Order is saved' --log-group-name=/aws/lambda/awslambda_palyground --query='events[0].message' --region=us-east-2 --output=json`
+
