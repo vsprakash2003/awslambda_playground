@@ -52,7 +52,7 @@
 --key-schema AttributeName=orderId,KeyType=HASH \
 --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 \
 --region us-east-2 \
---query TableDescription.TableArn --output text `
+--query TableDescription.TableArn --output text`
 
 ## create Iam role for access to DynamoDB
 1. create the DynamoDB.json file with version, statement, action, effect and resources. This specifies what all actions apply to access DynamoDB. It aslo specifies if access is needed for all tables (*)
@@ -92,3 +92,9 @@ git push -u origin origin/develop
 ### to get just the latest log using filter
 `aws logs filter-log-events --filter='Order is saved' --log-group-name=/aws/lambda/awslambda_palyground --query='events[0].message' --region=us-east-2 --output=json`
 
+## XRay
+### to setup xray
+`aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AWSxrayWriteOnlyAccess --role-name awslambda_palyground-executor --region us-east-2 --output json`
+
+### to update function configuration
+`aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AWSxrayWriteOnlyAccess --role-name awslambda_palyground-executor --region us-east-2 --output json`

@@ -1,10 +1,15 @@
-const AWS = require("aws-sdk");
+const AWSXRay = require("aws-xray-sdk-core");
+const AWS = AWSXRay.captureAWS(require("aws-sdk"));
 const docClient = new AWS.DynamoDB.DocumentClient();
 const rp = require("minimal-request-promise");
 
 /* check if the order has relevant details supplied, if not throw error */
 function createOrder(request) {
   console.log("Save an order", request);
+
+  if (!request.deliveryId || !request.status)
+    throw new Error("Status and delivery ID are required");
+
   if (!request || !request.pizzaId || !request.address)
     throw new Error(
       "To order pizza please provide pizza type and address where pizza should be delivered"
