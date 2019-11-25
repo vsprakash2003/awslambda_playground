@@ -21,7 +21,7 @@
 5. select the "programmatic access option"
 6. click the "next permissions" button
 7. select "attach existing policies directly" tab
-8. select the recommended polcies for this project as "IamFullAccess", "AWSLambdaFullAccess", "AmazonAPIGatewayAdministrator", "AmazonDynamoDBFullAccess", "AmazonAPIGatewayPushToCloudWatchLogs"
+8. select the recommended polcies for this project as "IamFullAccess", "AWSLambdaFullAccess", "AmazonAPIGatewayAdministrator", "AmazonDynamoDBFullAccess", "AmazonAPIGatewayPushToCloudWatchLogs" and "AmazonCognitoPowerUser"
 9. click on next button (skip tags)
 10. click on review button
 11. click on "create user" button
@@ -98,3 +98,11 @@ git push -u origin origin/develop
 
 ### to update function configuration
 `aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AWSxrayWriteOnlyAccess --role-name awslambda_palyground-executor --region us-east-2 --output json`
+
+## Cognito idp
+### to create cognito user pool
+`aws cognito-idp create-user-pool --pool-name MyPizzeria --policies "PasswordPolicy={MinimumLength=8,RequireUppercase=false,RequireLowercase=false,RequireNumbers=true,RequireSymbols=true}" --username-attributes email --query UserPool.Id --region us-east-2 --output text`
+
+### to create cognito user pool client
+`aws cognito-idp create-user-pool-client --user-pool-id us-east-2_hA53B4gRT --client-name MyPizzeriaClient --no-generate-secret --query UserPoolClient.ClientId --region us-east-2 --output text`
+
