@@ -100,9 +100,36 @@ git push -u origin origin/develop
 `aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AWSxrayWriteOnlyAccess --role-name awslambda_palyground-executor --region us-east-2 --output json`
 
 ## Cognito idp
+1. user to login with email id and password
+2. Cognito identity pool is for federated login like login using facebook or google. In our case it will be plain user id and password
+3. Cognito identity pool will provide temporary Cognito user pool access in the browser
+4. use Cognito user pool to register and authenticate the user. After successful registration/authentication, user pool will provide a JWT token
+5. use the JWT token to contact the pizza API to create/modify orders
+   
 ### to create cognito user pool
 `aws cognito-idp create-user-pool --pool-name MyPizzeria --policies "PasswordPolicy={MinimumLength=8,RequireUppercase=false,RequireLowercase=false,RequireNumbers=true,RequireSymbols=true}" --username-attributes email --query UserPool.Id --region us-east-2 --output text`
 
 ### to create cognito user pool client
 `aws cognito-idp create-user-pool-client --user-pool-id us-east-2_hA53B4gRT --client-name MyPizzeriaClient --no-generate-secret --query UserPoolClient.ClientId --region us-east-2 --output text`
+
+where us-east-2_hA53B4gRT is the user pool id
+
+### to create identity pool
+`aws cognito-identity create-identity-pool --identity-pool-name MyPizzeria --allow-unauthenticated-identities --cognito-identity-providers ProviderName=cognito-idp.us-east-2.amazonaws.com/us-east-2_hA53B4gRT,ClientId=2mpvcisokgoeud2ajs5oogrfba,ServerSideTokenCheck=false --query IdentityPoolId --region us-east-2 --output text`
+
+### to create roles in the identity pool
+1. navigate to https://us-east-2.console.aws.amazon.com/cognito/home?region=us-east-2
+2. click on "Manage Identity Pools" button and select the identity pool ex: MyPizzeria
+3. click on "create new role" link for unauthenticated role 
+4. click "Allow" button in the next screen
+5. Cognito creates a new unathenticated role
+6. follow above steps for the authenticated role. Cognito will create a new authenticated role
+7. click "Save Changes" button at the bottom
+8. go to console.aws.amazon.com and select Identity and Access Management(IAM)
+9. click on "Roles" menu in the IAM page
+10. click on the newly created role for unauthenticated role and copy the Role ARN at the top of the page
+11. do the same for the authenticated role
+
+### to set the roles
+`aws cognito-identity set-identity-pool-roles --identity-pool-id us-east-2:4e1af2ed-ea4e-4848-a6de-7975e458d1cf --roles authenticated=arn:aws:iam::878765816605:role/Cognito_MyPizzeriaAuth_Role,unauthenticated=arn:aws:iam::878765816605:role/Cognito_MyPizzeriaUnauth_Role --region us-east-2`
 
