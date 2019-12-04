@@ -16,6 +16,7 @@
     "aws-xray-sdk-core": "^2.5.0",
     "claudia-api-builder": "^4.1.2",
     "claudia-bot-builder": "^4.5.0",
+    "dotenv": "^8.2.0",
     "eslint": "^6.6.0",
     "eslint-config-esnext": "^4.0.0",
     "eslint-config-node": "^4.0.0",

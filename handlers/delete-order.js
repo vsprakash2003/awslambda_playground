@@ -3,7 +3,7 @@ const docClient = new AWS.DynamoDB.DocumentClient();
 const rp = require("minimal-request-promise");
 
 /* delete the order based on order id */
-function deleteOrder(orderId) {
+function deleteOrder(orderId, userData) {
   return docClient
     .get({
       TableName: "pizza-orders",
@@ -14,6 +14,9 @@ function deleteOrder(orderId) {
     .promise()
     .then(result => result.item)
     .then(item => {
+      if (item.cognitoUsername !== userData["cognito:username"])
+        throw new Error("Order is not owned by your user");
+
       if (item.orderStatus !== "pending")
         throw new Error("Order status is not pending");
 

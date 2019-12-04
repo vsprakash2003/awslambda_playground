@@ -1,5 +1,6 @@
 "use strict";
 
+require("dotenv").config();
 const Api = require("claudia-api-builder");
 const api = new Api();
 
@@ -11,7 +12,7 @@ const updateDeliveryStatus = require("./handlers/update-handler-status");
 
 /* register authorizer for Cognito user pool authorization */
 api.registerAuthorizer("userAuthentication", {
-  providerARNs: [process.env.userPoolArn]
+  providerARNs: [process.env.UserPoolArn]
 });
 
 /* handle generic route */
@@ -42,10 +43,15 @@ api.put(
 );
 
 /* handle delete order request */
-api.delete("/orders/{id}", request => deleteOrder(request.pathParams.id), {
-  error: 400,
-  cognitoAuthorizer: "userAuthentication"
-});
+api.delete(
+  "/orders/{id}",
+  request =>
+    deleteOrder(request.pathParams.id, request.context.authorizer.claims),
+  {
+    error: 400,
+    cognitoAuthorizer: "userAuthentication"
+  }
+);
 
 /* handle webhook API to update delivery status */
 api.delete("/delivery", request => updateDeliveryStatus(request.body), {

@@ -47,20 +47,13 @@
 `curl -i -H "content-type:application/json" -X POST -d '{"pizzaId":5, "address": "100 Smith Street, Xanadu"}' https://vi8yeybnz0.execute-api.us-east-2.amazonaws.com/latest/orders`
 
 ## create a table in DynamoDB with a key
-`aws dynamodb create-table --table-name pizza-orders \
---attribute-definitions AttributeName=orderId,AttributeType=S \
---key-schema AttributeName=orderId,KeyType=HASH \
---provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 \
---region us-east-2 \
---query TableDescription.TableArn --output text`
+`aws dynamodb create-table --table-name pizza-orders --attribute-definitions AttributeName=orderId,AttributeType=S --key-schema AttributeName=orderId,KeyType=HASH --provisioned-throughputReadCapacityUnits=1,WriteCapacityUnits=1 
+--region us-east-2 --query TableDescription.TableArn --output text`
 
 ## create Iam role for access to DynamoDB
 1. create the DynamoDB.json file with version, statement, action, effect and resources. This specifies what all actions apply to access DynamoDB. It aslo specifies if access is needed for all tables (*)
 2. run the following command to setup Iam role
-`aws iam put-role-policy \
---role-name awslambda_palyground-executor \
---policy-name PizzaApiDynamoDB \
---policy-document file://./roles/DynamoDB.json`
+`aws iam put-role-policy --role-name awslambda_palyground-executor --policy-name PizzaApiDynamoDB --policy-document file://./roles/DynamoDB.json`
 4. in the above, the --role-name is obtained from the role section of claudia.json file
 5. policy name can be any name
 
@@ -132,4 +125,7 @@ where us-east-2_hA53B4gRT is the user pool id
 
 ### to set the roles
 `aws cognito-identity set-identity-pool-roles --identity-pool-id us-east-2:4e1af2ed-ea4e-4848-a6de-7975e458d1cf --roles authenticated=arn:aws:iam::878765816605:role/Cognito_MyPizzeriaAuth_Role,unauthenticated=arn:aws:iam::878765816605:role/Cognito_MyPizzeriaUnauth_Role --region us-east-2`
+
+### check if unauthorized users are rejected. Should return status:401
+`curl -o -s -w ", status: %{http_code}\n" -H "Content-Type: application/json" -X POST -d '{"pizzaId:1, "address:200 Smith Street, Xanadu"}' https://vi8yeybnz0.execute-api.us-east-2.amazonaws.com/latest/orders`
 

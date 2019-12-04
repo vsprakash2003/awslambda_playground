@@ -5,7 +5,14 @@ const rp = require("minimal-request-promise");
 
 /* check if the order has relevant details supplied, if not throw error */
 function createOrder(request) {
-  console.log("Save an order", request);
+  console.log("Save an order", request.body);
+  const userData = request.context.authorizer.claims;
+  console.log("User data", userData);
+
+  let userAddress = request.body && request.body.address;
+  if (!userAddress) {
+    userAddress = JSON.parse(userData.address).formatted;
+  }
 
   if (!request.deliveryId || !request.status)
     throw new Error("Status and delivery ID are required");
@@ -24,7 +31,7 @@ function createOrder(request) {
       body: JSON.stringify({
         pickupTime: "15.34pm",
         pickupAddress: "Aunt Maria Pizzeria",
-        deliveryAddress: request.address,
+        deliveryAddress: userAddress,
         webhookUrl:
           "https://vi8yeybnz0.execute-api.us-east-2.amazonaws.com/latest/delivery"
       })
@@ -37,7 +44,7 @@ function createOrder(request) {
           Item: {
             orderId: response.deliveryId,
             pizza: request.pizza,
-            address: request.address,
+            address: userAddress,
             orderStatus: "pending"
           }
         })
