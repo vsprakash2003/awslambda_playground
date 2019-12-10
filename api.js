@@ -9,6 +9,7 @@ const createOrder = require("./handlers/create-order");
 const updateOrder = require("./handlers/update-order");
 const deleteOrder = require("./handlers/delete-order");
 const updateDeliveryStatus = require("./handlers/update-handler-status");
+const getSignedUrl = require("./handlers/generate-presigned-url.js");
 
 /* register authorizer for Cognito user pool authorization */
 api.registerAuthorizer("userAuthentication", {
@@ -56,6 +57,12 @@ api.delete(
 /* handle webhook API to update delivery status */
 api.delete("/delivery", request => updateDeliveryStatus(request.body), {
   success: 200,
+  error: 400,
+  cognitoAuthorizer: "userAuthentication"
+});
+
+/* handle access to s3 bucket for accessing static resources */
+api.get("upload-url", request => getSignedUrl(), {
   error: 400,
   cognitoAuthorizer: "userAuthentication"
 });

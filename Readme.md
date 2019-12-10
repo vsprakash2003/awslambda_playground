@@ -46,6 +46,9 @@
 ## check post using curl
 `curl -i -H "content-type:application/json" -X POST -d '{"pizzaId":5, "address": "100 Smith Street, Xanadu"}' https://vi8yeybnz0.execute-api.us-east-2.amazonaws.com/latest/orders`
 
+## check order through url
+https://vi8yeybnz0.execute-api.us-east-2.amazonaws.com/latest/
+
 ## create a table in DynamoDB with a key
 `aws dynamodb create-table --table-name pizza-orders --attribute-definitions AttributeName=orderId,AttributeType=S --key-schema AttributeName=orderId,KeyType=HASH --provisioned-throughputReadCapacityUnits=1,WriteCapacityUnits=1 
 --region us-east-2 --query TableDescription.TableArn --output text`
@@ -128,4 +131,9 @@ where us-east-2_hA53B4gRT is the user pool id
 
 ### check if unauthorized users are rejected. Should return status:401
 `curl -o -s -w ", status: %{http_code}\n" -H "Content-Type: application/json" -X POST -d '{"pizzaId:1, "address:200 Smith Street, Xanadu"}' https://vi8yeybnz0.execute-api.us-east-2.amazonaws.com/latest/orders`
+
+## S3 bucket
+### to create S3 bucket
+`aws s3 mb s3://my-cute-pizzeria --region us-east-2`
+here my-cute-pizzeria is the name of S3 bucket
 
