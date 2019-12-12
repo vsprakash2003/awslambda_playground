@@ -135,5 +135,10 @@ where us-east-2_hA53B4gRT is the user pool id
 ## S3 bucket
 ### to create S3 bucket
 `aws s3 mb s3://my-cute-pizzeria --region us-east-2`
-here my-cute-pizzeria is the name of S3 bucket
+here "my-cute-pizzeria" is the name of S3 bucket
 
+### to create folders in the S3 bucket
+1. navigate to https://s3.console.aws.amazon.com/s3/home?region=us-east-2#
+2. click on "my-cute-pizzeria bucket"
+3. click on "create folder"
+4. create 2 folders for images and thumbnails
