@@ -142,3 +142,31 @@ here "my-cute-pizzeria" is the name of S3 bucket
 2. click on "my-cute-pizzeria bucket"
 3. click on "create folder"
 4. create 2 folders for images and thumbnails
+
+## pizza image processor
+### setup repository
+1. pizza-image-processor is used to view static resources like menu card that is stored in S3
+2. checkout the github repository for the pizza-image-processor 
+
+
+### setup imageMagick lambda layer
+1. since imageMagick is not bundled with AWS by default, we need a setup
+2. navigate to serverless application repsoitory - https://us-east-2.console.aws.amazon.com/serverlessrepo/home?region=us-east-2#/available-applications 
+3. on the available applications, search for image magick
+4. pick the "image-magick-lambda-layer" application
+5. click "deploy" (see at the bottom of the page)
+6. go to functions in the AWS Lambda console - https://us-east-2.console.aws.amazon.com/lambda/home?region=us-east-2#/functions 
+7. choose the pizza-image-processor function
+8. click on "Layers" 
+9. click "Add a layer"
+10. select the newly deployed serverless application (step 5) as the layer
+
+### manual testing to ensure lambda works
+1. go to functions in the AWS Lambda console - https://us-east-2.console.aws.amazon.com/lambda/home?region=us-east-2#/functions
+2. choose the pizza-image-processor function
+3. increase the "Timeout" under Basic settings to 5 minutes
+4. navigate to https://s3.console.aws.amazon.com/s3/home?region=us-east-2#
+5. click on "my-cute-pizzeria" bucket
+6. select the "images" folder
+7. click the upload button and upload an image file
+8. check if the resized image is available in the "thumbnails" folder
